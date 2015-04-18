@@ -1,0 +1,57 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
+"""
+Litterae is a PyQt5 application designed to help researchers
+track, organise and read papers of ArXiV.
+"""
+
+import sys
+from PyQt5.QtWidgets import QMainWindow, QAction, qApp, QApplication
+from PyQt5.QtGui import QIcon
+
+
+class Litterae(QMainWindow):
+
+    def __init__(self):
+        super().__init__()
+
+        self.initUI()
+
+    def initUI(self):
+
+        exitAction = QAction(QIcon('img/ui/circle-x.svg'), '&Exit', self)
+        exitAction.setShortcut('Ctrl+Q')
+        exitAction.setStatusTip('Exit')
+        exitAction.triggered.connect(qApp.quit)
+
+        refreshAction = QAction(QIcon('img/ui/reload.svg'), '&Refresh', self)
+        refreshAction.setShortcut('Ctrl+R')
+        refreshAction.setStatusTip('Refresh')
+
+        self.toolbar = self.addToolBar('QuickTools')
+        self.toolbar.addAction(exitAction)
+        self.toolbar.addAction(refreshAction)
+
+        self.statusBar().showMessage('Ready')
+
+        menubar = self.menuBar()
+        fileMenu = menubar.addMenu('&File')
+        fileMenu.addAction(exitAction)
+
+        viewMenu = menubar.addMenu('&View')
+        viewMenu.addAction(refreshAction)
+
+        self.setGeometry(0, 0, 1024, 600)
+        self.setWindowTitle('Litterae')
+        self.setWindowIcon(QIcon('litterae.png'))
+        self.showMaximized()
+
+        self.show()
+
+
+if __name__ == '__main__':
+
+    app = QApplication(sys.argv)
+    ex = Litterae()
+    sys.exit(app.exec_())
