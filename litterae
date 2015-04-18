@@ -32,6 +32,7 @@ class Litterae(QMainWindow):
         self.toolbar = self.addToolBar('QuickTools')
         self.toolbar.addAction(exitAction)
         self.toolbar.addAction(refreshAction)
+        self.toolbar.setMovable(False)
 
         self.statusBar().showMessage('Ready')
 
