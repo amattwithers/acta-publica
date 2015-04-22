@@ -1,0 +1,69 @@
+#!/usr/bin/env python
+
+############################################################################
+##
+## Copyright (C) 2005-2005 Trolltech AS. All rights reserved.
+##
+## This file is part of the example classes of the Qt Toolkit.
+##
+## This file may be used under the terms of the GNU General Public
+## License version 2.0 as published by the Free Software Foundation
+## and appearing in the file LICENSE.GPL included in the packaging of
+## this file.  Please review the following information to ensure GNU
+## General Public Licensing requirements will be met:
+## http://www.trolltech.com/products/qt/opensource.html
+##
+## If you are unsure which license is appropriate for your use, please
+## review the following information:
+## http://www.trolltech.com/products/qt/licensing.html or contact the
+## sales department at sales@trolltech.com.
+##
+## This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+## WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+##
+############################################################################
+
+from PyQt4 import QtCore, QtGui
+
+class DragableItem(QtGui.QTreeWidgetItem):
+    def __init__(self, parent=None):
+        super(DragableItem, self).__init__(parent)
+        self.name = 'foo'
+    def set_name(self, name):
+        self.name = name
+        self.setText(0, self.name)
+
+
+class SimpleTree(QtGui.QTreeWidget):
+    def __init__(self, parent=None):
+        super(SimpleTree, self).__init__()
+        spawn1 = DragableItem(self)
+        spawn1.set_name('A1')
+        spawn2 = DragableItem(self)
+        spawn2.set_name('A2')
+        spawn3 = DragableItem(self)
+        spawn3.set_name('A3')
+
+        spawn11 = DragableItem(spawn1)
+        spawn11.set_name('B1')
+        spawn12 = DragableItem(spawn1)
+        spawn12.set_name('B2')
+        spawn23 = DragableItem(spawn2)
+        spawn23.set_name('B3')
+
+        self.expandItem(spawn1)
+        self.expandItem(spawn2)
+        self.expandItem(spawn3)
+
+        self.setAcceptDrops(True)
+
+if __name__ == '__main__':
+
+    import sys
+
+    app = QtGui.QApplication(sys.argv)
+
+    view = SimpleTree()
+    view.setWindowTitle("Dragable Tree")
+    view.show()
+    sys.exit(app.exec_())
