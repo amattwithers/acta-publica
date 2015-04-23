@@ -18,11 +18,11 @@ class MainWidget(QtGui.QWidget):
             self.BrowserList = nested_list.SimpleTree()
             self.BrowserList.BrowserList()
 
-            self.ResultsWidget = results_widget.ResultsWidget()
+            self.ResultsList = results_widget.ResultsList()
 
             splitter.addWidget(self.BrowserList)
 
-            splitter.addWidget(self.ResultsWidget)
+            splitter.addWidget(self.ResultsList)
 
             splitter.setStretchFactor(1, 2)
             splitter.setChildrenCollapsible(False)
