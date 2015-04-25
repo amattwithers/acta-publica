@@ -11,6 +11,10 @@ class NestedItem(QtGui.QTreeWidgetItem):
         self.name = name
         self.setText(0, self.name)
 
+    def set_icon(self, icon_url):
+        icon = QtGui.QIcon(icon_url)
+        self.setIcon(0, icon)
+
 
 class SimpleTree(QtGui.QTreeWidget):
 
@@ -24,12 +28,15 @@ class SimpleTree(QtGui.QTreeWidget):
 
         starred = NestedItem(self)
         starred.set_name('Starred')
+        starred.set_icon('img/ui/star.svg')
 
         topics = NestedItem(self)
         topics.set_name('Topics')
+        topics.set_icon('img/ui/bookmark.svg')
 
         people = NestedItem(self)
         people.set_name('People')
+        people.set_icon('img/ui/person.svg')
 
         arxiv = NestedItem(self)
         arxiv.set_name('ArXiV')
