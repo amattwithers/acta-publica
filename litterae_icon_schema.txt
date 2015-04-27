@@ -1,0 +1,12 @@
+Litterae - an app designed to help academic researchers keep track of new papers, topics and authors.
+
+https://github.com/amattwithers/litterae
+
+litterae (plural of littera) is Latin for letter, epistle, literature, books, records, accounts.
+
+App category - orgainization, education, science & engineering.
+
+Looking for a modern style & professional looking icon. I like the influences of material design
+and also the work of Sam Hewitt (https://plus.google.com/u/1/+SamHewitt/posts).
+
+Techinal details - svg format, square.

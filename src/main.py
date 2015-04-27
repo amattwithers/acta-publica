@@ -44,6 +44,8 @@ class Litterae(QtGui.QMainWindow):
         self.setWindowTitle('Litterae')
         self.setWindowIcon(QtGui.QIcon('litterae.png'))
 
+        self.showMaximized()
+
         self.show()
 
     def center(self):
