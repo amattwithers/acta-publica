@@ -30,13 +30,3 @@ class MainWidget(QtGui.QWidget):
             layout = QtGui.QHBoxLayout()
             layout.addWidget(self.splitter)
             self.setLayout(layout)
-
-        def itemSelected(self, query):
-
-            self.results.hide()
-            self.results.close()
-
-            newResults = arxiv_results.ResultsList()
-            newResults.get_data(query)
-
-            self.splitter.insertWidget(1, newResults)

@@ -1,7 +1,6 @@
 from PyQt4 import QtGui, QtCore
 
 import arxiv_results
-import main_widget
 
 
 class NestedItem(QtGui.QTreeWidgetItem):
@@ -32,7 +31,7 @@ class SimpleTree(QtGui.QTreeWidget):
 
         self.header().hide()
 
-        self.itemSelectionChanged.connect(self.test())
+        self.itemSelectionChanged.connect(self.test)
 
     def test(self):
 
@@ -40,8 +39,17 @@ class SimpleTree(QtGui.QTreeWidget):
             query = self.selectedItems()[0].query
         except:
             query = ''
+        print query
 
-        main_widget.MainWidget.itemSelected(query)
+    def itemSelected(self, query):
+
+        self.results.hide()
+        self.results.close()
+
+        newResults = arxiv_results.ResultsList()
+        newResults.get_data(query)
+
+        self.splitter.insertWidget(1, newResults)
 
     def BrowserList(self):
 
