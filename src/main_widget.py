@@ -1,7 +1,7 @@
 from PyQt4 import QtGui, QtCore
 
 import nested_list
-import results_widget
+import arxiv_results
 
 
 class MainWidget(QtGui.QWidget):
@@ -13,20 +13,30 @@ class MainWidget(QtGui.QWidget):
 
         def initUI(self):
 
-            splitter = QtGui.QSplitter(QtCore.Qt.Horizontal)
+            self.splitter = QtGui.QSplitter(QtCore.Qt.Horizontal)
 
             self.BrowserList = nested_list.SimpleTree()
             self.BrowserList.BrowserList()
 
-            self.ResultsList = results_widget.ResultsList()
+            self.results = arxiv_results.ResultsList()
 
-            splitter.addWidget(self.BrowserList)
+            self.splitter.addWidget(self.BrowserList)
 
-            splitter.addWidget(self.ResultsList)
+            self.splitter.addWidget(self.results)
 
-            splitter.setStretchFactor(1, 2)
-            splitter.setChildrenCollapsible(False)
+            self.splitter.setStretchFactor(1, 2)
+            self.splitter.setChildrenCollapsible(False)
 
             layout = QtGui.QHBoxLayout()
-            layout.addWidget(splitter)
+            layout.addWidget(self.splitter)
             self.setLayout(layout)
+
+        def itemSelected(self, query):
+
+            self.results.hide()
+            self.results.close()
+
+            newResults = arxiv_results.ResultsList()
+            newResults.get_data(query)
+
+            self.splitter.insertWidget(1, newResults)

@@ -1,5 +1,7 @@
 from PyQt4 import QtGui, QtCore
 
+import feedparser
+
 
 class ItemWidget(QtGui.QWidget):
 
@@ -87,6 +89,16 @@ class ResultsList(QtGui.QListWidget):
     def __init__(self, parent=None):
 
         super(ResultsList, self).__init__()
+
+    def get_data(self, query):
+
+        prefix = 'http://export.arxiv.org/api/query?'
+
+        suffix = '&sortBy=submittedDate&sortOrder=ascending'
+
+        self.query = prefix + query + suffix
+
+        print self.query
 
     def addListItem(self, id, title, authors, date, journ_ref, comment):
 

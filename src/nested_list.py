@@ -1,5 +1,8 @@
 from PyQt4 import QtGui, QtCore
 
+import arxiv_results
+import main_widget
+
 
 class NestedItem(QtGui.QTreeWidgetItem):
 
@@ -7,6 +10,7 @@ class NestedItem(QtGui.QTreeWidgetItem):
         super(NestedItem, self).__init__(parent)
         self.name = 'foo'
         self.setSizeHint(0, QtCore.QSize(0, 25))
+        self.query = ''
 
     def set_name(self, name):
         self.name = name
@@ -16,6 +20,9 @@ class NestedItem(QtGui.QTreeWidgetItem):
         icon = QtGui.QIcon(icon_url)
         self.setIcon(0, icon)
 
+    def set_query(self, query):
+        self.query = query
+
 
 class SimpleTree(QtGui.QTreeWidget):
 
@@ -24,6 +31,17 @@ class SimpleTree(QtGui.QTreeWidget):
         super(SimpleTree, self).__init__()
 
         self.header().hide()
+
+        self.itemSelectionChanged.connect(self.test())
+
+    def test(self):
+
+        try:
+            query = self.selectedItems()[0].query
+        except:
+            query = ''
+
+        main_widget.MainWidget.itemSelected(query)
 
     def BrowserList(self):
 
@@ -47,6 +65,7 @@ class SimpleTree(QtGui.QTreeWidget):
         arxiv = NestedItem(self)
         arxiv.set_name('ArXiV')
         arxiv.set_icon('img/ui/globe.svg')
+        arxiv.set_query('')
 
         starred = NestedItem(arxiv)
         starred.set_name('Starred')
@@ -60,37 +79,40 @@ class SimpleTree(QtGui.QTreeWidget):
         people.set_name('People')
         people.set_icon('img/ui/person.svg')
 
-        arxivphys = NestedItem(arxiv)
-        arxivphys.set_name('Physics')
-        arxivphys.set_icon('img/ui/book.svg')
+        astroph = NestedItem(arxiv)
+        astroph.set_name('Astrophysics')
+        astroph.set_icon('img/ui/book.svg')
+        astroph.set_query('search_query=cat:astro-ph*')
 
-        astrophga = NestedItem(arxivphys)
+        astrophga = NestedItem(astroph)
         astrophga.set_name('astro-ph.GA')
         astrophga.set_icon('img/ui/document.svg')
+        astrophga.set_query('search_query=cat:astro-ph.GA')
 
-        astrophco = NestedItem(arxivphys)
+        astrophco = NestedItem(astroph)
         astrophco.set_name('astro-ph.CO')
         astrophco.set_icon('img/ui/document.svg')
+        astrophco.set_query('search_query=cat:astro-ph.CO')
 
-        astrophep = NestedItem(arxivphys)
+        astrophep = NestedItem(astroph)
         astrophep.set_name('astro-ph.EP')
         astrophep.set_icon('img/ui/document.svg')
+        astrophep.set_query('search_query=cat:astro-ph.EP')
 
-        astrophhe = NestedItem(arxivphys)
+        astrophhe = NestedItem(astroph)
         astrophhe.set_name('astro-ph.HE')
         astrophhe.set_icon('img/ui/document.svg')
+        astrophhe.set_query('search_query=cat:astro-ph.HE')
 
-        astrophim = NestedItem(arxivphys)
+        astrophim = NestedItem(astroph)
         astrophim.set_name('astro-ph.IM')
         astrophim.set_icon('img/ui/document.svg')
+        astrophim.set_query('search_query=cat:astro-ph.IM')
 
-        astrophsr = NestedItem(arxivphys)
+        astrophsr = NestedItem(astroph)
         astrophsr.set_name('astro-ph.SR')
         astrophsr.set_icon('img/ui/document.svg')
-
-        arxivmath = NestedItem(arxiv)
-        arxivmath.set_name('Mathematics')
-        arxivmath.set_icon('img/ui/book.svg')
+        astrophsr.set_query('search_query=cat:astro-ph.SR')
 
         self.expandItem(arxiv)
 
