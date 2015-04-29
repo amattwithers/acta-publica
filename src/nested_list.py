@@ -31,26 +31,6 @@ class SimpleTree(QtGui.QTreeWidget):
 
         self.header().hide()
 
-        self.itemSelectionChanged.connect(self.test)
-
-    def test(self):
-
-        try:
-            query = self.selectedItems()[0].query
-        except:
-            query = ''
-        print query
-
-    def itemSelected(self, query):
-
-        self.results.hide()
-        self.results.close()
-
-        newResults = arxiv_results.ResultsList()
-        newResults.get_data(query)
-
-        self.splitter.insertWidget(1, newResults)
-
     def BrowserList(self):
 
         search = NestedItem(self)
