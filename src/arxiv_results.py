@@ -40,7 +40,7 @@ class ItemWidget(QtGui.QWidget):
         self.layout.addWidget(self.title)
         self.layout.addWidget(self.authors)
         # self.layout.addWidget(self.date)
-        self.layout.addWidget(self.journ_ref)
+        # self.layout.addWidget(self.journ_ref)
         self.layout.addWidget(self.comment)
 
         self.setLayout(self.layout)
@@ -150,13 +150,15 @@ class ResultsList(QtGui.QListWidget):
 
         self.data = ''
 
+        self.setVerticalScrollMode(1)
+
     def get_data(self, query):
 
         self.setCursor(QtCore.Qt.BusyCursor)
 
         prefix = 'http://export.arxiv.org/api/query?'
 
-        suffix = '&sortBy=submittedDate&sortOrder=descending'
+        suffix = '&sortBy=submittedDate&sortOrder=descending&max_results=50'
 
         self.query = prefix + query + suffix
 

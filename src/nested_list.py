@@ -41,14 +41,17 @@ class SimpleTree(QtGui.QTreeWidget):
         library = NestedItem(self)
         library.set_name('Library')
         library.set_icon('img/ui/book.svg')
+        library.setDisabled(True)
 
         tags = NestedItem(self)
         tags.set_name('Tags')
         tags.set_icon('img/ui/tag.svg')
+        tags.setDisabled(True)
 
         recent = NestedItem(self)
         recent.set_name('Recent')
         recent.set_icon('img/ui/clock.svg')
+        recent.setDisabled(True)
 
         arxiv = NestedItem(self)
         arxiv.set_name('ArXiV')
