@@ -1,6 +1,18 @@
 from PyQt4 import QtGui, QtCore
 
+import misc_functions as mf
+
 import feedparser
+
+
+class LabelFormat(QtGui.QLabel):
+
+    def __init__(self, parent=None):
+
+        super(LabelFormat, self).__init__()
+        self.setWordWrap(True)
+        self.setMinimumWidth(self.frameGeometry().width())
+        self.setAlignment(QtCore.Qt.AlignJustify)
 
 
 class ItemWidget(QtGui.QWidget):
@@ -9,28 +21,12 @@ class ItemWidget(QtGui.QWidget):
 
         super(ItemWidget, self).__init__()
 
-        self.id = QtGui.QLabel("ID")
-        self.title = QtGui.QLabel("TITLE")
-        self.title.setWordWrap(True)
-        self.title.setMinimumWidth(self.frameGeometry().width())
-        self.authors = QtGui.QLabel("AUTHORS")
-        self.authors.setWordWrap(True)
-        self.authors.setMinimumWidth(self.frameGeometry().width())
-        self.date = QtGui.QLabel("DATE")
-        self.date.setWordWrap(True)
-        self.date.setMinimumWidth(self.frameGeometry().width())
-        self.journ_ref = QtGui.QLabel("JOURN_REF")
-        self.journ_ref.setWordWrap(True)
-        self.journ_ref.setMinimumWidth(self.frameGeometry().width())
-        self.comment = QtGui.QLabel("COMMENT")
-        self.comment.setWordWrap(True)
-        self.comment.setMinimumWidth(self.frameGeometry().width())
-
-        self.title.setScaledContents(True)
-        self.authors.setScaledContents(True)
-
-        # self.title.setWordWrap(True)
-        # self.authors.setWordWrap(True)
+        self.id = LabelFormat()
+        self.title = LabelFormat()
+        self.authors = LabelFormat()
+        self.date = LabelFormat()
+        self.journ_ref = LabelFormat()
+        self.comment = LabelFormat()
 
         self.layout = QtGui.QVBoxLayout()
         self.layout.addStretch()
@@ -68,25 +64,22 @@ class ItemPopup(QtGui.QWidget):
         self.setWindowModality(QtCore.Qt.ApplicationModal)
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
 
-        self.id = QtGui.QLabel("ID")
-        self.title = QtGui.QLabel("TITLE")
-        self.title.setTextInteractionFlags(QtCore.Qt.TextBrowserInteraction)
-        self.title.setWordWrap(True)
-        self.authors = QtGui.QLabel("AUTHORS")
-        self.authors.setTextInteractionFlags(QtCore.Qt.TextBrowserInteraction)
-        self.authors.setWordWrap(True)
-        self.date = QtGui.QLabel("DATE")
-        self.date.setTextInteractionFlags(QtCore.Qt.TextBrowserInteraction)
-        self.date.setWordWrap(True)
-        self.journ_ref = QtGui.QLabel("JOURN_REF")
-        self.journ_ref.setTextInteractionFlags(QtCore.Qt.TextBrowserInteraction)
-        self.journ_ref.setWordWrap(True)
-        self.comment = QtGui.QLabel("COMMENT")
-        self.comment.setTextInteractionFlags(QtCore.Qt.TextBrowserInteraction)
-        self.comment.setWordWrap(True)
-        self.summary = QtGui.QLabel("SUMMARY")
-        self.summary.setTextInteractionFlags(QtCore.Qt.TextBrowserInteraction)
-        self.summary.setWordWrap(True)
+        self.id = LabelFormat()
+        self.title = LabelFormat()
+        self.title.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
+        self.authors = LabelFormat()
+        self.authors.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
+        self.date = LabelFormat()
+        self.date.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
+        self.journ_ref = LabelFormat()
+        self.journ_ref.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
+        self.comment = LabelFormat()
+        self.comment.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
+        self.summary = LabelFormat()
+        self.summary.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
+
+        self.closeButton = QtGui.QPushButton("Close")
+        self.closeButton.clicked.connect(self.close)
 
         self.layout = QtGui.QVBoxLayout()
         # self.layout.addStretch()
@@ -99,10 +92,11 @@ class ItemPopup(QtGui.QWidget):
         self.layout.addWidget(self.journ_ref)
         self.layout.addWidget(self.comment)
         self.layout.addWidget(self.summary)
+        self.layout.addWidget(self.closeButton)
 
         self.setLayout(self.layout)
 
-        self.center()
+        mf.center(self)
 
     def setData(self, data):
 
@@ -116,20 +110,6 @@ class ItemPopup(QtGui.QWidget):
         self.comment.setText(data['comment'])
         self.summary.setText(data['summary'])
 
-        self.center()
-
-    def center(self):
-
-        qr = self.frameGeometry()
-        cp = QtGui.QDesktopWidget().availableGeometry().center()
-        qr.moveCenter(cp)
-        self.move(qr.topLeft())
-
-    def mouseDoubleClickEvent(self, event):
-
-        print "Close"
-        self.close()
-
 
 class ListItem(QtGui.QListWidgetItem):
 
@@ -140,11 +120,11 @@ class ListItem(QtGui.QListWidgetItem):
         self.data = ''
 
 
-class ResultsList(QtGui.QListWidget):
+class Arxiv(QtGui.QListWidget):
 
     def __init__(self, parent=None):
 
-        super(ResultsList, self).__init__()
+        super(Arxiv, self).__init__()
 
         self.itemDoubleClicked.connect(self.showPopup)
 
@@ -152,7 +132,7 @@ class ResultsList(QtGui.QListWidget):
 
         self.setVerticalScrollMode(1)
 
-    def get_data(self, query):
+    def Query(self, query):
 
         self.setCursor(QtCore.Qt.BusyCursor)
 
@@ -227,7 +207,7 @@ class ResultsList(QtGui.QListWidget):
         self.unsetCursor()
 
     def showPopup(self):
-        print "Open"
+
         self.popup = ItemPopup()
         self.popup.setData(self.selectedItems()[0].data)
         self.popup.show()
@@ -239,7 +219,7 @@ if __name__ == "__main__":
 
     app = QtGui.QApplication(sys.argv)
 
-    view = ResultsList()
+    view = Arxiv()
 
     view.setWindowTitle("Results List")
     view.resize(640, 480)

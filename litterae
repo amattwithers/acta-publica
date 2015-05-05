@@ -2,11 +2,22 @@
 # -*- coding: utf-8 -*-
 
 """
-Litterae is a PyQt4 application designed to help researchers
-track, organise and read papers of ArXiV.
+Litterae - a PyQt4 application designed to help researchers manage papers
+
+Credits
+'----> Code - Matthew Withers - @amattwithers
+'----> App Icon - Christoph Laier - plus.google.com/+ChristophLaier
+'----> UI Icons - OpenIconic (read licence at img/ui/ICON-LICENSE)
+
+This software is licensed under GPLv2 - please see bundled LICENSE file
+
+Copyright Matthew Withers 2015
 """
+
+import signal
+signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 from src.main import main
 
 if __name__ == "__main__":
-	main()
+    main()

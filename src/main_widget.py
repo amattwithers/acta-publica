@@ -1,7 +1,7 @@
 from PyQt4 import QtGui, QtCore
 
-import nested_list
-import arxiv_results
+import navigation
+import arxiv
 
 
 class MainWidget(QtGui.QWidget):
@@ -15,10 +15,10 @@ class MainWidget(QtGui.QWidget):
 
             self.splitter = QtGui.QSplitter(QtCore.Qt.Horizontal)
 
-            self.BrowserList = nested_list.SimpleTree()
+            self.BrowserList = navigation.Tree()
             self.BrowserList.BrowserList()
 
-            self.results = arxiv_results.ResultsList()
+            self.results = arxiv.Arxiv()
 
             self.splitter.addWidget(self.BrowserList)
 
@@ -39,9 +39,9 @@ class MainWidget(QtGui.QWidget):
             self.results.hide()
             self.results.close()
 
-            self.results = arxiv_results.ResultsList()
+            self.results = arxiv.Arxiv()
             query = self.BrowserList.selectedItems()[0].query
-            self.results.get_data(query)
+            self.results.Query(query)
 
             self.splitter.insertWidget(1, self.results)
             self.splitter.setStretchFactor(1, 2)
