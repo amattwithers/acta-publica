@@ -1,4 +1,4 @@
-## System Imports
+# System Imports
 import sys
 from PyQt4 import QtGui
 

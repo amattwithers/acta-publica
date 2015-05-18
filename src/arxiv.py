@@ -13,6 +13,7 @@ class LabelFormat(QtGui.QLabel):
         self.setWordWrap(True)
         self.setMinimumWidth(self.frameGeometry().width())
         self.setAlignment(QtCore.Qt.AlignJustify)
+        self.setOpenExternalLinks(True)
 
 
 class ItemWidget(QtGui.QWidget):
@@ -60,13 +61,18 @@ class ItemPopup(QtGui.QWidget):
         super(ItemPopup, self).__init__()
 
         self.setGeometry(0, 0, 640, 480)
-        self.setMaximumSize(640, 480)
+        self.setFixedSize(640, 480)
         self.setWindowModality(QtCore.Qt.ApplicationModal)
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
 
+        self.scrollArea = QtGui.QScrollArea
+        self.scrollAreaWidgetContents = QtGui.QWidget()
+
+        infoWidget = QtGui.QWidget
+
         self.id = LabelFormat()
         self.title = LabelFormat()
-        self.title.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
+        # self.title.setTextInteractionFlags(QtCore.Qt.TextSelectable)
         self.authors = LabelFormat()
         self.authors.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
         self.date = LabelFormat()
@@ -78,21 +84,41 @@ class ItemPopup(QtGui.QWidget):
         self.summary = LabelFormat()
         self.summary.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
 
+        self.starButton = QtGui.QPushButton("Starred")
+        self.starButton.clicked.connect(self.close)
+        self.urlButton = QtGui.QPushButton("Open URL")
+        self.urlButton.clicked.connect(self.close)
+        self.pdfButton = QtGui.QPushButton("Open PDF")
+        self.pdfButton.clicked.connect(self.close)
         self.closeButton = QtGui.QPushButton("Close")
         self.closeButton.clicked.connect(self.close)
 
         self.layout = QtGui.QVBoxLayout()
+        infoLayout = QtGui.QVBoxLayout()
         # self.layout.addStretch()
         self.layout.setSizeConstraint(QtGui.QLayout.SetFixedSize)
 
+        self.butLayout = QtGui.QHBoxLayout()
+
+        self.butLayout.addWidget(self.starButton)
+        self.butLayout.addWidget(self.urlButton)
+        self.butLayout.addWidget(self.pdfButton)
+        self.butLayout.addWidget(self.closeButton)
+
         # self.layout.addWidget(self.id)
-        self.layout.addWidget(self.title)
-        self.layout.addWidget(self.authors)
-        self.layout.addWidget(self.date)
-        self.layout.addWidget(self.journ_ref)
-        self.layout.addWidget(self.comment)
-        self.layout.addWidget(self.summary)
-        self.layout.addWidget(self.closeButton)
+        infoLayout.addWidget(self.title)
+        infoLayout.addWidget(self.authors)
+        infoLayout.addWidget(self.date)
+        infoLayout.addWidget(self.journ_ref)
+        infoLayout.addWidget(self.comment)
+        infoLayout.addWidget(self.summary)
+
+        infoWidget.setLayout(infoLayout)
+
+        scrollArea.setWidget(infoWidget)
+
+        self.layout.addWidget(infoWidget)
+        self.layout.addLayout(self.butLayout)
 
         self.setLayout(self.layout)
 
@@ -149,38 +175,38 @@ class Arxiv(QtGui.QListWidget):
         for entry in d.entries:
 
             try:
-                id = entry.id.replace("\n", "").replace("\r", "")
+                id = entry.id.replace("\n", " ").replace("\r", " ")
             except AttributeError:
                 id = "No id found!"
 
             try:
-                title = entry.title.replace("\n", "").replace("\r", "")
+                title = entry.title.replace("\n", " ").replace("\r", " ")
             except AttributeError:
                 title = "No Title Found!"
 
             try:
-                summary = entry.summary.replace("\n", "").replace("\r", "")
+                summary = entry.summary.replace("\n", " ").replace("\r", " ")
             except AttributeError:
                 summary = "No Summary Found!"
 
             try:
                 authstr = ', '.join(author.name for author in entry.authors)
-                authstr = authstr.replace("\n", "").replace("\r", "")
+                authstr = authstr.replace("\n", " ").replace("\r", " ")
             except AttributeError:
                 authstr = "No Authors Found!"
 
             try:
-                date = entry.updated.replace("\n", "").replace("\r", "")
+                date = entry.updated.replace("\n", " ").replace("\r", " ")
             except AttributeError:
                 date = "No data Found!"
 
             try:
-                journ_ref = entry.arxiv_journal_ref.replace("\n", "").replace("\r", "")
+                journ_ref = entry.arxiv_journal_ref.replace("\n", " ").replace("\r", " ")
             except AttributeError:
                 journ_ref = "No Journal Ref Found!"
 
             try:
-                comment = entry.arxiv_comment.replace("\n", "").replace("\r", "")
+                comment = entry.arxiv_comment.replace("\n", " ").replace("\r", " ")
             except AttributeError:
                 comment = "No Comment Found!"
 
