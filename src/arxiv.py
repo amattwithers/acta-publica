@@ -115,7 +115,7 @@ class ItemPopup(QtGui.QWidget):
 
         infoWidget.setLayout(infoLayout)
 
-        scrollArea.setWidget(infoWidget)
+        self.scrollArea.setWidget(infoWidget)
 
         self.layout.addWidget(infoWidget)
         self.layout.addLayout(self.butLayout)

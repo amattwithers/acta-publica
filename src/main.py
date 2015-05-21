@@ -20,25 +20,25 @@ class Litterae(QtGui.QMainWindow):
 
         self.statusBar().showMessage('Ready')
 
-        # exitAction = QtGui.QAction(QtGui.QIcon('img/ui/circle-x.svg'), '&Exit', self)
-        # exitAction.setShortcut('Ctrl+Q')
-        # exitAction.setStatusTip('Exit application')
+        exitAction = QtGui.QAction(QtGui.QIcon('img/ui/circle-x.svg'), '&Exit', self)
+        exitAction.setShortcut('Ctrl+Q')
+        exitAction.setStatusTip('Exit application')
+        exitAction.triggered.connect(QtGui.qApp.quit)
+
+        refreshAction = QtGui.QAction(QtGui.QIcon('img/ui/reload.svg'), '&Refresh', self)
+        refreshAction.setShortcut('Ctrl+R')
+        refreshAction.setStatusTip('Refresh')
         # exitAction.triggered.connect(QtGui.qApp.quit)
-        #
-        # refreshAction = QtGui.QAction(QtGui.QIcon('img/ui/reload.svg'), '&Refresh', self)
-        # refreshAction.setShortcut('Ctrl+R')
-        # refreshAction.setStatusTip('Refresh')
-        # # exitAction.triggered.connect(QtGui.qApp.quit)
-        #
+
         # self.toolbar = self.addToolBar('QuickActions')
         # self.toolbar.setMovable(False)
         # self.toolbar.addAction(exitAction)
         # self.toolbar.addAction(refreshAction)
         # self.toolbar.setMovable(False)
-        #
-        # menubar = self.menuBar()
-        # fileMenu = menubar.addMenu('&File')
-        # fileMenu.addAction(exitAction)
+
+        menubar = self.menuBar()
+        fileMenu = menubar.addMenu('&File')
+        fileMenu.addAction(exitAction)
 
         self.resize(640, 480)
         mf.center(self)

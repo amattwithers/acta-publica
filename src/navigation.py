@@ -59,14 +59,17 @@ class Tree(QtGui.QTreeWidget):
         starred = TreeItem(arxiv)
         starred.set_name('Starred')
         starred.set_icon('img/ui/star.svg')
+        starred.setDisabled(True)
 
         topics = TreeItem(arxiv)
         topics.set_name('Topics')
         topics.set_icon('img/ui/bookmark.svg')
+        topics.setDisabled(True)
 
         people = TreeItem(arxiv)
         people.set_name('People')
         people.set_icon('img/ui/person.svg')
+        people.setDisabled(True)
 
         astroph = TreeItem(arxiv)
         astroph.set_name('Astrophysics')
