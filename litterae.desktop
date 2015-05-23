@@ -1,0 +1,10 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Version=0.1-alpha
+Name=Litterae
+Comment=Reference Manager
+Exec=litterae
+Icon=litterae.png
+Terminal=false
+Categories=Education
