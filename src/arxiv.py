@@ -5,53 +5,16 @@ import misc_functions as mf
 import feedparser
 
 
-class LabelFormat(QtGui.QLabel):
-
-    def __init__(self, parent=None):
-
-        super(LabelFormat, self).__init__()
-        self.setWordWrap(True)
-        self.setMinimumWidth(self.frameGeometry().width())
-        self.setAlignment(QtCore.Qt.AlignJustify)
-        self.setOpenExternalLinks(True)
-
-
-class ItemWidget(QtGui.QWidget):
+class ItemWidget(QtGui.QLabel):
 
     def __init__(self, parent=None):
 
         super(ItemWidget, self).__init__()
 
-        self.id = LabelFormat()
-        self.title = LabelFormat()
-        self.authors = LabelFormat()
-        self.date = LabelFormat()
-        self.journ_ref = LabelFormat()
-        self.comment = LabelFormat()
-
-        self.layout = QtGui.QVBoxLayout()
-        self.layout.addStretch()
-        self.layout.setSizeConstraint(QtGui.QLayout.SetFixedSize)
-
-        # self.layout.addWidget(self.id)
-        self.layout.addWidget(self.title)
-        self.layout.addWidget(self.authors)
-        # self.layout.addWidget(self.date)
-        # self.layout.addWidget(self.journ_ref)
-        self.layout.addWidget(self.comment)
-
-        self.setLayout(self.layout)
-
-    def setData(self, data):
-
-        title = '<span style="font-weight: bold;">' + data['title'] + '</span>'
-        authors = '<span style="font-style: italic; color:blue;">' + data['authors'] + '</span>'
-
-        self.title.setText(title)
-        self.authors.setText(authors)
-        self.date.setText(data['date'])
-        self.journ_ref.setText(data['journal'])
-        self.comment.setText(data['comment'])
+        self.setText("Hello")
+        self.setWordWrap(True)
+        self.setAlignment(QtCore.Qt.AlignTop)
+        self.setMargin(5)
 
 
 class ItemPopup(QtGui.QWidget):
@@ -141,8 +104,6 @@ class Arxiv(QtGui.QListWidget):
 
     def Query(self, query):
 
-        self.setCursor(QtCore.Qt.BusyCursor)
-
         prefix = 'http://export.arxiv.org/api/query?'
 
         suffix = '&sortBy=submittedDate&sortOrder=descending&max_results=50'
@@ -204,14 +165,21 @@ class Arxiv(QtGui.QListWidget):
             List_Item.data = data
 
             itemwidget = ItemWidget()
-            itemwidget.setData(data)
+            # itemwidget.setData(data)
 
-            self.addItem(List_Item)
-            self.setItemWidget(List_Item, itemwidget)
+            title = '<span style="font-weight: bold;">' + data['title'] + '</span><br/>'
+            authors = '<span style="font-style: italic; color:blue;">' + data['authors'] + '</span><br/>'
+            journ_ref = '<span style="font-style: italic;">' + data['journal'] + '</span><br/>'
+            comment = '<span style="font-style: italic;">' + data['comment'] + '</span><br/>'
+
+            strFinal = title + authors + journ_ref + comment
+
+            itemwidget.setText(strFinal)
 
             List_Item.setSizeHint(itemwidget.sizeHint())
 
-        self.unsetCursor()
+            self.addItem(List_Item)
+            self.setItemWidget(List_Item, itemwidget)
 
     def showPopup(self):
 

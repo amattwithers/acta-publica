@@ -4,6 +4,8 @@
 
 * Redo itemWidget as QLabel and fix width
 
+* QTextLayout
+
 
 ## Features to Add
 

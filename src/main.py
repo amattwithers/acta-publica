@@ -43,6 +43,8 @@ class Litterae(QtGui.QMainWindow):
         self.resize(1024, 576)
         mf.center(self)
         self.setWindowTitle('Litterae')
+        # self.appIcon = QtGui.QIcon.fromTheme("applications-science")
+        # self.setWindowIcon(self.appIcon)
         self.setWindowIcon(QtGui.QIcon('litterae.png'))
 
         self.showMaximized()
