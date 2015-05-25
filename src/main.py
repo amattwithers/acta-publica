@@ -40,7 +40,7 @@ class Litterae(QtGui.QMainWindow):
         fileMenu = menubar.addMenu('&File')
         fileMenu.addAction(exitAction)
 
-        self.resize(640, 480)
+        self.resize(1024, 576)
         mf.center(self)
         self.setWindowTitle('Litterae')
         self.setWindowIcon(QtGui.QIcon('litterae.png'))

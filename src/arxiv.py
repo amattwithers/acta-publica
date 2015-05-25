@@ -60,43 +60,32 @@ class ItemPopup(QtGui.QWidget):
 
         super(ItemPopup, self).__init__()
 
-        self.setGeometry(0, 0, 640, 480)
-        self.setFixedSize(640, 480)
+        self.setGeometry(0, 0, 1024, 576)
+        # self.setFixedSize(1024, 576)
         self.setWindowModality(QtCore.Qt.ApplicationModal)
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
 
-        self.scrollArea = QtGui.QScrollArea
-        self.scrollAreaWidgetContents = QtGui.QWidget()
+        self.dataStr = QtGui.QLabel("Hello")
+        self.dataStr.setWordWrap(True)
+        self.dataStr.setAlignment(QtCore.Qt.AlignJustify)
+        self.dataStr.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse | QtCore.Qt.TextSelectableByKeyboard)
 
-        infoWidget = QtGui.QWidget
-
-        self.id = LabelFormat()
-        self.title = LabelFormat()
-        # self.title.setTextInteractionFlags(QtCore.Qt.TextSelectable)
-        self.authors = LabelFormat()
-        self.authors.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
-        self.date = LabelFormat()
-        self.date.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
-        self.journ_ref = LabelFormat()
-        self.journ_ref.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
-        self.comment = LabelFormat()
-        self.comment.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
-        self.summary = LabelFormat()
-        self.summary.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
+        self.scroll = QtGui.QScrollArea()
+        self.scroll.setWidget(self.dataStr)
+        self.scroll.setWidgetResizable(True)
+        self.scroll.setFrameShape(QtGui.QFrame.NoFrame)
 
         self.starButton = QtGui.QPushButton("Starred")
         self.starButton.clicked.connect(self.close)
+        self.starButton.setEnabled(False)
         self.urlButton = QtGui.QPushButton("Open URL")
         self.urlButton.clicked.connect(self.close)
+        self.urlButton.setEnabled(False)
         self.pdfButton = QtGui.QPushButton("Open PDF")
         self.pdfButton.clicked.connect(self.close)
+        self.pdfButton.setEnabled(False)
         self.closeButton = QtGui.QPushButton("Close")
         self.closeButton.clicked.connect(self.close)
-
-        self.layout = QtGui.QVBoxLayout()
-        infoLayout = QtGui.QVBoxLayout()
-        # self.layout.addStretch()
-        self.layout.setSizeConstraint(QtGui.QLayout.SetFixedSize)
 
         self.butLayout = QtGui.QHBoxLayout()
 
@@ -105,19 +94,10 @@ class ItemPopup(QtGui.QWidget):
         self.butLayout.addWidget(self.pdfButton)
         self.butLayout.addWidget(self.closeButton)
 
-        # self.layout.addWidget(self.id)
-        infoLayout.addWidget(self.title)
-        infoLayout.addWidget(self.authors)
-        infoLayout.addWidget(self.date)
-        infoLayout.addWidget(self.journ_ref)
-        infoLayout.addWidget(self.comment)
-        infoLayout.addWidget(self.summary)
+        self.layout = QtGui.QVBoxLayout()
 
-        infoWidget.setLayout(infoLayout)
+        self.layout.addWidget(self.scroll)
 
-        self.scrollArea.setWidget(infoWidget)
-
-        self.layout.addWidget(infoWidget)
         self.layout.addLayout(self.butLayout)
 
         self.setLayout(self.layout)
@@ -126,15 +106,16 @@ class ItemPopup(QtGui.QWidget):
 
     def setData(self, data):
 
-        title = '<span style="font-weight: bold;">' + data['title'] + '</span>'
-        authors = '<span style="font-style: italic; color:blue;">' + data['authors'] + '</span>'
+        title = '<p><span style="font-weight: bold;">' + data['title'] + '</span></p>'
+        authors = '<p><span style="font-style: italic; color:blue;">' + data['authors'] + '</span></p>'
+        date = '<p><span style="">' + data['date'] + '</span></p>'
+        journ_ref = '<p><span style="font-style: italic;">' + data['journal'] + '</span></p>'
+        comment = '<p><span style="font-style: italic;">' + data['comment'] + '</span></p>'
+        summary = '<p><span style="">' + data['summary'] + '</span></p>'
 
-        self.title.setText(title)
-        self.authors.setText(authors)
-        self.date.setText(data['date'])
-        self.journ_ref.setText(data['journal'])
-        self.comment.setText(data['comment'])
-        self.summary.setText(data['summary'])
+        strFinal = title + authors + date + journ_ref + comment + summary
+
+        self.dataStr.setText(strFinal)
 
 
 class ListItem(QtGui.QListWidgetItem):
