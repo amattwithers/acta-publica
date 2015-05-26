@@ -5,18 +5,6 @@ import misc_functions as mf
 import feedparser
 
 
-class ItemWidget(QtGui.QLabel):
-
-    def __init__(self, parent=None):
-
-        super(ItemWidget, self).__init__()
-
-        self.setText("Hello")
-        self.setWordWrap(True)
-        self.setAlignment(QtCore.Qt.AlignTop)
-        self.setMargin(5)
-
-
 class ItemPopup(QtGui.QWidget):
 
     def __init__(self, parent=None):
@@ -86,6 +74,8 @@ class ListItem(QtGui.QListWidgetItem):
     def __init__(self, parent=None):
 
         super(ListItem, self).__init__()
+
+        self.setSizeHint(QtCore.QSize(0, 30))
 
         self.data = ''
 
@@ -161,25 +151,18 @@ class Arxiv(QtGui.QListWidget):
                     'summary': summary
                     }
 
-            List_Item = ListItem()
-            List_Item.data = data
+            listEntry = ListItem()
+            listEntry.data = data
+            listEntry.setText(title)
+            self.addItem(listEntry)
 
-            itemwidget = ItemWidget()
-            # itemwidget.setData(data)
-
-            title = '<span style="font-weight: bold;">' + data['title'] + '</span><br/>'
-            authors = '<span style="font-style: italic; color:blue;">' + data['authors'] + '</span><br/>'
-            journ_ref = '<span style="font-style: italic;">' + data['journal'] + '</span><br/>'
-            comment = '<span style="font-style: italic;">' + data['comment'] + '</span><br/>'
-
-            strFinal = title + authors + journ_ref + comment
-
-            itemwidget.setText(strFinal)
-
-            List_Item.setSizeHint(itemwidget.sizeHint())
-
-            self.addItem(List_Item)
-            self.setItemWidget(List_Item, itemwidget)
+        addMore = ListItem()
+        addMore.setText("More")
+        addMore.setSizeHint(QtCore.QSize(0, 50))
+        addMore.setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+        # addMore.setBackground(QtCore.Qt.green)
+        addMore.setBackground(QtGui.QColor(88, 214, 91, 255))
+        self.addItem(addMore)
 
     def showPopup(self):
 
