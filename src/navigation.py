@@ -46,6 +46,11 @@ class Tree(QtGui.QTreeWidget):
         tags.set_icon('img/ui/tag.svg')
         tags.setDisabled(True)
 
+        starred = TreeItem(self)
+        starred.set_name('Starred')
+        starred.set_icon('img/ui/star.svg')
+        starred.setDisabled(True)
+
         recent = TreeItem(self)
         recent.set_name('Recent')
         recent.set_icon('img/ui/clock.svg')
@@ -55,11 +60,6 @@ class Tree(QtGui.QTreeWidget):
         arxiv.set_name('ArXiV')
         arxiv.set_icon('img/ui/globe.svg')
         arxiv.set_query('')
-
-        starred = TreeItem(arxiv)
-        starred.set_name('Starred')
-        starred.set_icon('img/ui/star.svg')
-        starred.setDisabled(True)
 
         topics = TreeItem(arxiv)
         topics.set_name('Topics')
