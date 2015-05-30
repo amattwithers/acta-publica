@@ -73,7 +73,7 @@ class ListItem(QtGui.QListWidgetItem):
 
     def __init__(self, parent=None):
 
-        super(ListItem, self).__init__()
+        super(ListItem, self).__init__(parent)
 
         self.setSizeHint(QtCore.QSize(0, 30))
 
@@ -88,7 +88,7 @@ class Arxiv(QtGui.QListWidget):
 
         super(Arxiv, self).__init__()
 
-        self.itemDoubleClicked.connect(self.showPopup)
+        # self.itemDoubleClicked.connect(self.showPopup)
 
         self.data = ''
 
