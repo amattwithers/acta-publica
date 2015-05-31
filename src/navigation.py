@@ -64,12 +64,20 @@ class Tree(QtGui.QTreeWidget):
         topics = TreeItem(arxiv)
         topics.set_name('Topics')
         topics.set_icon('img/ui/bookmark.svg')
-        topics.setDisabled(True)
+
+        topiccosmology = TreeItem(topics)
+        topiccosmology.set_name('Cosmology')
+        topiccosmology.set_icon('img/ui/document.svg')
+        topiccosmology.set_query('search_query=ti:cosmology+OR+abs:cosmology')
 
         people = TreeItem(arxiv)
         people.set_name('People')
         people.set_icon('img/ui/person.svg')
-        people.setDisabled(True)
+
+        peoplecritt = TreeItem(people)
+        peoplecritt.set_name('Robert Crittenden')
+        peoplecritt.set_icon('img/ui/document.svg')
+        peoplecritt.set_query('search_query=au:crittenden_r')
 
         astroph = TreeItem(arxiv)
         astroph.set_name('Astrophysics')
